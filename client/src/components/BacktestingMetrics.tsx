@@ -51,15 +51,31 @@ export default function BacktestingMetrics({ metrics }: BacktestingMetricsProps)
         <Card className="bg-slate-800/50 border-slate-700">
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium text-slate-400">
-              Average Return per Trade
+              Monthly Return
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-400">
-              +0.17%
+              +{metrics.monthlyReturnPercent || "0"}%
             </div>
             <p className="text-xs text-slate-400 mt-1">
-              Per Trade Average
+              Average Monthly
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-slate-800/50 border-slate-700">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-medium text-slate-400">
+              Annual Return
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-green-400">
+              +{metrics.annualReturnPercent || "0"}%
+            </div>
+            <p className="text-xs text-slate-400 mt-1">
+              Yearly Performance
             </p>
           </CardContent>
         </Card>
@@ -76,22 +92,6 @@ export default function BacktestingMetrics({ metrics }: BacktestingMetricsProps)
             </div>
             <p className="text-xs text-slate-400 mt-1">
               Gross Profit / Gross Loss
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-slate-800/50 border-slate-700">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-slate-400">
-              Maximum Drawdown
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-red-400">
-              ${metrics.maxDrawdown || "0"}
-            </div>
-            <p className="text-xs text-slate-400 mt-1">
-              Peak to Trough
             </p>
           </CardContent>
         </Card>
@@ -207,9 +207,9 @@ export default function BacktestingMetrics({ metrics }: BacktestingMetricsProps)
             <li className="flex items-start gap-3">
               <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2"></div>
               <div>
-                <p className="text-white font-medium">Controlled Risk</p>
+                <p className="text-white font-medium">Strong Monthly Returns</p>
                 <p className="text-sm text-slate-400">
-                  Maximum drawdown of ${metrics.maxDrawdown} demonstrates effective risk management
+                  Average monthly return of {metrics.monthlyReturnPercent}% demonstrates consistent profitability
                 </p>
               </div>
             </li>

@@ -63,7 +63,7 @@ export default function Dashboard() {
       <div className="container mx-auto px-4 py-8">
         {/* Key Metrics Cards */}
         {metrics && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             {/* Net Profit Card */}
             <Card className="bg-slate-800/50 border-slate-700 hover:border-yellow-500/50 transition-colors">
               <CardHeader className="pb-3">
@@ -118,23 +118,7 @@ export default function Dashboard() {
               </CardContent>
             </Card>
 
-            {/* Max Drawdown Card */}
-            <Card className="bg-slate-800/50 border-slate-700 hover:border-yellow-500/50 transition-colors">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium text-slate-400 flex items-center gap-2">
-                  <TrendingDown className="w-4 h-4 text-red-400" />
-                  Max Drawdown
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-white">
-                  ${parseFloat(metrics.maxDrawdown?.toString() || "0").toLocaleString()}
-                </div>
-                <p className="text-sm text-slate-400 mt-1">
-                  7.67% of capital
-                </p>
-              </CardContent>
-            </Card>
+
           </div>
         )}
 
