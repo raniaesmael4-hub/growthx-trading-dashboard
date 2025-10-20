@@ -35,6 +35,42 @@ async function startServer() {
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
+  // Webhook endpoint for Pine Script alerts
+  app.post("/api/webhook/trade", express.json(), async (req, res) => {
+    try {
+      const { tradeId, type, entryPrice, exitPrice, quantity, entryTime, exitTime, pnl, pnlPercent, status, signal } = req.body;
+      
+      // Validate required fields
+      if (!tradeId || !type || !entryPrice || !quantity || !entryTime || !status) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+
+      // Import the database function directly
+      const { createOrUpdateTrade } = await import("../db");
+      
+      // Create or update the trade
+      await createOrUpdateTrade({
+        id: tradeId,
+        tradeId,
+        type,
+        entryPrice,
+        exitPrice,
+        quantity,
+        entryTime: new Date(entryTime),
+        exitTime: exitTime ? new Date(exitTime) : undefined,
+        pnl,
+        pnlPercent,
+        status,
+        signal,
+      });
+      
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Webhook error:", error);
+      res.status(400).json({ error: "Webhook processing failed", details: String(error) });
+    }
+  });
+
   // tRPC API
   app.use(
     "/api/trpc",

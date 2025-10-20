@@ -1,6 +1,13 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import {
+  backtestingMetrics,
+  InsertBacktestingMetrics,
+  InsertLiveTrade,
+  InsertUser,
+  liveTrades,
+  users,
+} from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -85,4 +92,81 @@ export async function getUser(id: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+export async function getBacktestingMetrics(symbol: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const result = await db
+    .select()
+    .from(backtestingMetrics)
+    .where(eq(backtestingMetrics.symbol, symbol))
+    .limit(1);
+
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getAllLiveTrades() {
+  const db = await getDb();
+  if (!db) return [];
+
+  const result = await db
+    .select()
+    .from(liveTrades)
+    .orderBy(desc(liveTrades.createdAt));
+
+  return result;
+}
+
+export async function getOpenTrades() {
+  const db = await getDb();
+  if (!db) return [];
+
+  const result = await db
+    .select()
+    .from(liveTrades)
+    .where(eq(liveTrades.status, 'OPEN'))
+    .orderBy(desc(liveTrades.entryTime));
+
+  return result;
+}
+
+export async function createOrUpdateTrade(trade: InsertLiveTrade) {
+  const db = await getDb();
+  if (!db) return;
+
+  if (!trade.id) {
+    trade.id = `trade_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  await db
+    .insert(liveTrades)
+    .values(trade)
+    .onDuplicateKeyUpdate({
+      set: {
+        exitPrice: trade.exitPrice,
+        exitTime: trade.exitTime,
+        pnl: trade.pnl,
+        pnlPercent: trade.pnlPercent,
+        status: trade.status,
+        updatedAt: new Date(),
+      },
+    });
+}
+
+export async function upsertBacktestingMetrics(
+  metrics: InsertBacktestingMetrics
+) {
+  const db = await getDb();
+  if (!db) return;
+
+  if (!metrics.id) {
+    metrics.id = `metrics_${metrics.symbol}_${Date.now()}`;
+  }
+
+  await db
+    .insert(backtestingMetrics)
+    .values(metrics)
+    .onDuplicateKeyUpdate({
+      set: metrics,
+    });
+}
