@@ -124,3 +124,21 @@ export const followups = mysqlTable("followups", {
 
 export type Followup = typeof followups.$inferSelect;
 export type InsertFollowup = typeof followups.$inferInsert;
+
+
+// Public recent signals (for display in bot)
+export const publicSignals = mysqlTable("public_signals", {
+  id: varchar("id", { length: 64 }).primaryKey(),
+  tradeNumber: int("tradeNumber").notNull(),
+  signal: varchar("signal", { length: 64 }).notNull(),
+  dateTime: varchar("dateTime", { length: 64 }).notNull(),
+  price: varchar("price", { length: 64 }).notNull(),
+  pnlUsd: varchar("pnlUsd", { length: 64 }),
+  pnlPercent: varchar("pnlPercent", { length: 64 }),
+  status: varchar("status", { length: 64 }),
+  createdAt: timestamp("createdAt").defaultNow(),
+});
+
+export type PublicSignal = typeof publicSignals.$inferSelect;
+export type InsertPublicSignal = typeof publicSignals.$inferInsert;
+
