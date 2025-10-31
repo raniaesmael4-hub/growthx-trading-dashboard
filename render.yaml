@@ -1,0 +1,16 @@
+# Render deployment configuration
+services:
+  - type: web
+    name: growthx-trading-dashboard
+    env: node
+    plan: free
+    buildCommand: pnpm install && pnpm build
+    startCommand: pnpm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: growthx-db
+          property: connectionString
+
