@@ -1,0 +1,15 @@
+{
+  "query": "SELECT monthlyReturnPercent, quarterlyReturnPercent, annualReturnPercent FROM backtesting_metrics WHERE symbol = 'BINANCE:SOLUSDT' ORDER BY createdAt DESC LIMIT 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 83oqTuxU2xUpdMr.fa53ebccfe76 --database AUvGY4oJ6osMDucSncdJZi --execute SELECT monthlyReturnPercent, quarterlyReturnPercent, annualReturnPercent FROM backtesting_metrics WHERE symbol = 'BINANCE:SOLUSDT' ORDER BY createdAt DESC LIMIT 1;",
+  "rows": [
+    {
+      "monthlyReturnPercent": "23.73",
+      "quarterlyReturnPercent": "79.43",
+      "annualReturnPercent": "284.79"
+    }
+  ],
+  "messages": [],
+  "stdout": "monthlyReturnPercent\tquarterlyReturnPercent\tannualReturnPercent\n23.73\t79.43\t284.79\n",
+  "stderr": "",
+  "execution_time_ms": 198
+}

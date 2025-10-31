@@ -20,8 +20,8 @@ export default function ProfitCalculator({ metrics }: ProfitCalculatorProps) {
   // Historical average monthly return: 10% (varies month to month, not fixed compound)
   // Last year annual return: 180% (based on average 10% per month)
   // Note: Actual monthly returns vary; this is the historical average for projections
-  const monthlyReturn = metrics?.monthlyReturnPercent ? parseFloat(metrics.monthlyReturnPercent) / 100 : 0.10;
-  const annualReturn = metrics?.annualReturnPercent ? parseFloat(metrics.annualReturnPercent) / 100 : 1.80;
+  const monthlyReturn = metrics?.monthlyReturnPercent ? parseFloat(metrics.monthlyReturnPercent) / 100 : 0.2373;
+  const annualReturn = metrics?.annualReturnPercent ? parseFloat(metrics.annualReturnPercent) / 100 : 2.8479;
 
   // Calculate compound interest projections
   const projections = useMemo(() => {

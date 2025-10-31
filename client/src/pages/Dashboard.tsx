@@ -27,9 +27,9 @@ export default function Dashboard() {
         avgPnl: 3.19,
         profitFactor: 1.441,
         maxDrawdown: 7884.11,
-        monthlyReturnPercent: 12.99,
-        quarterlyReturnPercent: 38.98,
-        annualReturnPercent: 155.91,
+        monthlyReturnPercent: 23.73,
+        quarterlyReturnPercent: 79.43,
+        annualReturnPercent: 284.79,
       });
       setInitialized(true);
     }

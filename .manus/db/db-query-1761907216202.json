@@ -1,0 +1,26 @@
+{
+  "query": "SELECT * FROM backtesting_metrics ORDER BY createdAt DESC LIMIT 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 83oqTuxU2xUpdMr.fa53ebccfe76 --database AUvGY4oJ6osMDucSncdJZi --execute SELECT * FROM backtesting_metrics ORDER BY createdAt DESC LIMIT 1;",
+  "rows": [
+    {
+      "id": "metrics_BINANCE:SOLUSDT_1761888310184",
+      "symbol": "BINANCE:SOLUSDT",
+      "initialCapital": "10000",
+      "netProfit": "77954",
+      "netProfitPercent": "779.54",
+      "totalTrades": "24431",
+      "winRate": "73.64",
+      "avgPnl": "3.19",
+      "profitFactor": "1.441",
+      "maxDrawdown": "7884.11",
+      "monthlyReturnPercent": "12.99",
+      "quarterlyReturnPercent": "38.98",
+      "annualReturnPercent": "155.91",
+      "createdAt": "2025-10-31 05:25:10"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsymbol\tinitialCapital\tnetProfit\tnetProfitPercent\ttotalTrades\twinRate\tavgPnl\tprofitFactor\tmaxDrawdown\tmonthlyReturnPercent\tquarterlyReturnPercent\tannualReturnPercent\tcreatedAt\nmetrics_BINANCE:SOLUSDT_1761888310184\tBINANCE:SOLUSDT\t10000\t77954\t779.54\t24431\t73.64\t3.19\t1.441\t7884.11\t12.99\t38.98\t155.91\t2025-10-31 05:25:10\n",
+  "stderr": "",
+  "execution_time_ms": 752
+}

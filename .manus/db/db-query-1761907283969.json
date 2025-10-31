@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE backtesting_metrics SET monthlyReturnPercent = 23.73, quarterlyReturnPercent = 79.43, annualReturnPercent = 284.79 WHERE symbol = 'BINANCE:SOLUSDT';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 83oqTuxU2xUpdMr.fa53ebccfe76 --database AUvGY4oJ6osMDucSncdJZi --execute UPDATE backtesting_metrics SET monthlyReturnPercent = 23.73, quarterlyReturnPercent = 79.43, annualReturnPercent = 284.79 WHERE symbol = 'BINANCE:SOLUSDT';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 57
+}
