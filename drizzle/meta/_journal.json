@@ -15,6 +15,13 @@
       "when": 1760952185563,
       "tag": "0001_luxuriant_professor_monster",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1761885632886,
+      "tag": "0002_colossal_doctor_doom",
+      "breakpoints": true
     }
   ]
 }

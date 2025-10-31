@@ -36,10 +36,9 @@ export default function Dashboard() {
   }, [initialized, initMetrics]);
 
   // Fetch backtesting metrics
-  const { data: metrics } = trpc.trading.getBacktestingMetrics.useQuery(
-    { symbol: SYMBOL },
-    { enabled: initialized }
-  );
+  const { data: metrics } = trpc.trading.getBacktestingMetrics.useQuery(undefined, {
+    enabled: initialized
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
