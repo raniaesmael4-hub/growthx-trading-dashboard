@@ -51,35 +51,29 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          {/* Admin Panel Card */}
-          <Card className="bg-slate-800 border-slate-700 hover:border-amber-500 transition-colors">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Lock className="w-5 h-5 text-amber-400" />
-                Admin Panel
-              </CardTitle>
-              <CardDescription>Manage leads, payments, and signals</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {user?.role === 'admin' ? (
-                <>
-                  <p className="text-sm text-gray-300">
-                    Manage all leads, track payments, send trading signals, and handle follow-ups.
-                  </p>
-                  <Button 
-                    onClick={() => setLocation("/admin")}
-                    className="w-full bg-amber-600 hover:bg-amber-700"
-                  >
-                    Access Admin Panel
-                  </Button>
-                </>
-              ) : (
-                <div className="p-4 bg-red-900/20 border border-red-700 rounded text-sm text-red-300">
-                  ⚠️ Admin access required. Please contact support.
-                </div>
-              )}
-            </CardContent>
-          </Card>
+          {/* Admin Panel Card - Only visible to admins */}
+          {user?.role === 'admin' && (
+            <Card className="bg-slate-800 border-slate-700 hover:border-amber-500 transition-colors">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Lock className="w-5 h-5 text-amber-400" />
+                  Admin Panel
+                </CardTitle>
+                <CardDescription>Manage leads, payments, and signals</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-sm text-gray-300">
+                  Manage all leads, track payments, send trading signals, and handle follow-ups.
+                </p>
+                <Button 
+                  onClick={() => setLocation("/admin")}
+                  className="w-full bg-amber-600 hover:bg-amber-700"
+                >
+                  Access Admin Panel
+                </Button>
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {/* Info Section */}

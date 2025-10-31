@@ -16,9 +16,12 @@ interface ProfitCalculatorProps {
 export default function ProfitCalculator({ metrics }: ProfitCalculatorProps) {
   const [initialCapital, setInitialCapital] = useState(1000);
 
-  // Performance rates from historical data
-  const monthlyReturn = metrics?.monthlyReturnPercent ? parseFloat(metrics.monthlyReturnPercent) / 100 : 0.1299;
-  const annualReturn = metrics?.annualReturnPercent ? parseFloat(metrics.annualReturnPercent) / 100 : 1.5591;
+  // Performance rates from backtesting data (OPS Strategy)
+  // Historical average monthly return: 10% (varies month to month, not fixed compound)
+  // Last year annual return: 180% (based on average 10% per month)
+  // Note: Actual monthly returns vary; this is the historical average for projections
+  const monthlyReturn = metrics?.monthlyReturnPercent ? parseFloat(metrics.monthlyReturnPercent) / 100 : 0.10;
+  const annualReturn = metrics?.annualReturnPercent ? parseFloat(metrics.annualReturnPercent) / 100 : 1.80;
 
   // Calculate compound interest projections
   const projections = useMemo(() => {

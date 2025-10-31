@@ -1,7 +1,7 @@
 import { sql } from "drizzle-orm";
 import { eq, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, telegramLeads, payments, signals, followups, TelegramLead, Payment, Signal, Followup } from "../drizzle/schema";
+import { InsertUser, users, telegramLeads, payments, signals, followups, liveTrades, TelegramLead, Payment, Signal, Followup } from "../drizzle/schema";
 import { ENV } from './_core/env';
 import { v4 as uuidv4 } from "uuid";
 
@@ -499,6 +499,23 @@ export async function getConfirmedPayments() {
     return result;
   } catch (error) {
     console.error("[Database] Failed to get confirmed payments:", error);
+    return [];
+  }
+}
+
+
+export async function getAllLiveTrades() {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get live trades: database not available");
+    return [];
+  }
+
+  try {
+    const result = await db.select().from(liveTrades).orderBy(desc(liveTrades.updatedAt));
+    return result;
+  } catch (error) {
+    console.error("[Database] Failed to get live trades:", error);
     return [];
   }
 }

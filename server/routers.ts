@@ -254,6 +254,10 @@ export const appRouter = router({
     getLiveTrades: publicProcedure.query(async () => {
       return [];
     }),
+
+    getAllTrades: publicProcedure.query(async () => {
+      return await db.getAllLiveTrades();
+    }),
   }),
 });
 
