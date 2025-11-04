@@ -111,6 +111,72 @@ export const appRouter = router({
         return await db.confirmPayment(input.paymentId);
       }),
 
+    approveUser: adminProcedure
+      .input(z.object({
+        telegramId: z.string(),
+        tier: z.enum(["basic", "pro", "vip", "premium"]),
+        plan: z.enum(["monthly", "quarterly", "yearly", "lifetime"]),
+      }))
+      .mutation(async ({ input }) => {
+        try {
+          // Find pending payment for this user
+          const payments = await db.getAllPayments();
+          const userPayment = payments.find(p => 
+            p.telegramId === input.telegramId && p.status === "pending"
+          );
+          
+          // Confirm payment in dashboard database
+          if (userPayment) {
+            await db.confirmPayment(userPayment.id);
+          }
+          
+          // Call Telegram bot to activate subscription
+          const BOT_URL = process.env.BOT_URL || "https://growthx-bot.onrender.com";
+          const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+          
+          if (BOT_TOKEN) {
+            const axios = (await import('axios')).default;
+            try {
+              const response = await axios.post(
+                `${BOT_URL}/admin/activate-subscription`,
+                {
+                  telegram_id: input.telegramId,
+                  tier: input.tier,
+                  plan: input.plan,
+                },
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                    "X-Admin-Token": BOT_TOKEN,
+                  },
+                  timeout: 10000,
+                }
+              );
+              
+              return { 
+                success: true, 
+                message: "User approved and subscription activated in bot",
+                botResponse: response.data 
+              };
+            } catch (botError: any) {
+              console.error("Error activating in bot:", botError.message);
+              return { 
+                success: false, 
+                error: `Payment confirmed, but bot activation failed: ${botError.message}` 
+              };
+            }
+          }
+          
+          return { 
+            success: true, 
+            message: "Payment confirmed. Activate manually in bot with /activate command." 
+          };
+        } catch (error) {
+          console.error("Error approving user:", error);
+          return { success: false, error: String(error) };
+        }
+      }),
+
     sendFollowup: adminProcedure
       .input(z.object({
         followupId: z.string(),

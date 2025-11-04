@@ -228,13 +228,76 @@ export default function AdminDashboard() {
 
       {/* Tabs */}
       <Tabs defaultValue="leads" className="w-full">
-        <TabsList className="grid w-full grid-cols-5 bg-slate-800 border-slate-700">
+        <TabsList className="grid w-full grid-cols-6 bg-slate-800 border-slate-700">
+          <TabsTrigger value="approvals">Approvals</TabsTrigger>
           <TabsTrigger value="leads">Leads</TabsTrigger>
           <TabsTrigger value="payments">Payments</TabsTrigger>
           <TabsTrigger value="signals">Send Signals</TabsTrigger>
           <TabsTrigger value="followups">Follow-ups</TabsTrigger>
           <TabsTrigger value="messages">Messages</TabsTrigger>
         </TabsList>
+
+        {/* Approvals Tab */}
+        <TabsContent value="approvals" className="space-y-4">
+          <Card className="bg-slate-800 border-slate-700">
+            <CardHeader>
+              <CardTitle className="text-white">Pending Approvals</CardTitle>
+              <CardDescription>Users waiting for subscription activation</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-gray-300">
+                  <thead className="border-b border-slate-700">
+                    <tr>
+                      <th className="text-left py-2 px-4">User</th>
+                      <th className="text-left py-2 px-4">Telegram ID</th>
+                      <th className="text-left py-2 px-4">Payment</th>
+                      <th className="text-left py-2 px-4">Plan</th>
+                      <th className="text-left py-2 px-4">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {payments
+                      .filter(p => p.status === 'pending')
+                      .map((payment) => {
+                        const lead = leads.find(l => l.telegramId === payment.telegramId);
+                        return (
+                          <tr key={payment.id} className="border-b border-slate-700 hover:bg-slate-700/50">
+                            <td className="py-2 px-4">
+                              {lead ? `${lead.firstName} ${lead.lastName || ''}` : 'Unknown'}
+                              {lead?.username && <div className="text-xs text-gray-500">@{lead.username}</div>}
+                            </td>
+                            <td className="py-2 px-4 font-mono text-xs">{payment.telegramId}</td>
+                            <td className="py-2 px-4">
+                              <div>${payment.amount}</div>
+                              <div className="text-xs text-gray-500">{payment.paymentMethod}</div>
+                            </td>
+                            <td className="py-2 px-4">
+                              <Badge variant="secondary">{payment.plan}</Badge>
+                            </td>
+                            <td className="py-2 px-4">
+                              <Button
+                                size="sm"
+                                onClick={() => confirmPaymentMutation.mutate({ paymentId: payment.id })}
+                                className="bg-green-600 hover:bg-green-700"
+                              >
+                                Approve
+                              </Button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+                {payments.filter(p => p.status === 'pending').length === 0 && (
+                  <div className="text-center py-8 text-gray-500">
+                    No pending approvals
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
         {/* Leads Tab */}
         <TabsContent value="leads" className="space-y-4">
