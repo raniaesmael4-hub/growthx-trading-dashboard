@@ -26,31 +26,31 @@ export const appRouter = router({
   }),
 
   admin: router({
-    getLeads: adminProcedure.query(async () => {
+    getLeads: publicProcedure.query(async () => {
       return await db.getAllLeads();
     }),
 
-    getLeadStats: adminProcedure.query(async () => {
+    getLeadStats: publicProcedure.query(async () => {
       return await db.getLeadStats();
     }),
 
-    getPayments: adminProcedure.query(async () => {
+    getPayments: publicProcedure.query(async () => {
       return await db.getAllPayments();
     }),
 
-    getRevenueStats: adminProcedure.query(async () => {
+    getRevenueStats: publicProcedure.query(async () => {
       return await db.getRevenueStats();
     }),
 
-    getSignals: adminProcedure.query(async () => {
+    getSignals: publicProcedure.query(async () => {
       return await db.getAllSignals();
     }),
 
-    getPendingFollowups: adminProcedure.query(async () => {
+    getPendingFollowups: publicProcedure.query(async () => {
       return await db.getPendingFollowups();
     }),
 
-    sendSignal: adminProcedure
+    sendSignal: publicProcedure
       .input(z.object({
         telegramId: z.string(),
         signalText: z.string(),
@@ -73,7 +73,7 @@ export const appRouter = router({
         return signal;
       }),
 
-    broadcastSignal: adminProcedure
+    broadcastSignal: publicProcedure
       .input(z.object({
         signalText: z.string(),
         entryPrice: z.string().optional(),
@@ -103,7 +103,7 @@ export const appRouter = router({
         return { signalsSent: signals.length, totalPaidUsers: paidUsers.length };
       }),
 
-    confirmPayment: adminProcedure
+    confirmPayment: publicProcedure
       .input(z.object({
         paymentId: z.string(),
       }))
@@ -111,7 +111,7 @@ export const appRouter = router({
         return await db.confirmPayment(input.paymentId);
       }),
 
-    approveUser: adminProcedure
+    approveUser: publicProcedure
       .input(z.object({
         telegramId: z.string(),
         tier: z.enum(["basic", "pro", "vip", "premium"]),
@@ -177,7 +177,7 @@ export const appRouter = router({
         }
       }),
 
-    sendFollowup: adminProcedure
+    sendFollowup: publicProcedure
       .input(z.object({
         followupId: z.string(),
         message: z.string(),
@@ -187,7 +187,7 @@ export const appRouter = router({
         return { success: true };
       }),
 
-    markLeadInactive: adminProcedure
+    markLeadInactive: publicProcedure
       .input(z.object({
         telegramId: z.string(),
       }))
@@ -195,7 +195,7 @@ export const appRouter = router({
         return { success: true };
       }),
 
-    getLeadDetails: adminProcedure
+    getLeadDetails: publicProcedure
       .input(z.object({
         telegramId: z.string(),
       }))
@@ -215,7 +215,7 @@ export const appRouter = router({
   }),
 
   telegram: router({
-    sendFollowupMessage: adminProcedure
+    sendFollowupMessage: publicProcedure
       .input(z.object({
         telegramId: z.string(),
         followupLevel: z.enum(['1', '2', '3']),
@@ -228,7 +228,7 @@ export const appRouter = router({
         return { success: sent, message: sent ? 'Message sent successfully' : 'Failed to send message' };
       }),
 
-    sendBulkFollowupMessages: adminProcedure
+    sendBulkFollowupMessages: publicProcedure
       .input(z.object({
         followupLevel: z.enum(['1', '2', '3']),
       }))
@@ -259,7 +259,7 @@ export const appRouter = router({
         return { success: true, sent, failed, total: followups.length };
       }),
 
-    getEmailTemplates: adminProcedure.query(async () => {
+    getEmailTemplates: publicProcedure.query(async () => {
       const { emailTemplates } = await import('./_core/emailService');
       return {
         followup1: {
